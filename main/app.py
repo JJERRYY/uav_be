@@ -140,7 +140,10 @@ def get_training_data(id):
         'sigma': training_data.config.sigma,
         'num_uavs': training_data.config.num_uavs,
         'num_users': training_data.config.num_users,
-        'env_name': training_data.config.env_name
+        'env_name': training_data.config.env_name,
+        'info': training_data.config.info,
+        'alg': training_data.config.alg,
+        'time_consumpted': training_data.config.time_consumpted,
     }
 
     episodes = []
@@ -236,7 +239,10 @@ def put_trainingdata():
         sigma=data['config']['sigma'],
         num_uavs=data['config']['num_uavs'],
         num_users=data['config']['num_users'],
-        env_name=data['config']['env_name']
+        env_name=data['config']['env_name'],
+        alg = data['config']['alg'],
+        time_consumpted=data['config']['time_consumpted'],
+        info=data['config']['info'],
     )
     training_data.config = config
     for episode_data in data['data']:
