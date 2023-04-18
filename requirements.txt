@@ -1,6 +1,5 @@
 alembic==1.10.3
-Flask==1.1.2
-Flask==2.2.2
+
 Flask==2.2.3
 Flask_Caching==2.0.2
 Flask_Compress==1.13
