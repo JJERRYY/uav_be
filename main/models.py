@@ -86,3 +86,5 @@ class TrainingData(db.Model):
     config = db.relationship('Config', backref='training_data', single_parent=True, cascade="all, delete-orphan")
     # episodes = db.relationship('Episode', backref='training_data', lazy='dynamic')
     episodes = db.relationship('Episode', backref='training_data', lazy='dynamic', cascade="all, delete-orphan")
+    returns_list = db.Column(db.PickleType)
+    loss_list = db.Column(db.PickleType)

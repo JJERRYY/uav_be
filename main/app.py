@@ -109,19 +109,12 @@ def get_training_data_list():
             })
 
         result.append({
-            # You may need to adjust the following fields according to your database schema and requirements.
-            # The following values are just placeholders.
-            # Please replace them with the actual values from your database.
-            # Or remove them if they are not needed.
-            # Or add additional fields if needed.
-            # The same applies to other parts of this code.
-            # This is just an example and may need to be adjusted according to your specific needs.
-            # Please make sure to test the code thoroughly before using it in production.
-            # If you have any questions or need further assistance, please feel free to ask.
             "id": training_data.id,
             "data": episodes,
             "config": config,
-            "datetime": training_data.training_data_datetime
+            "datetime": training_data.training_data_datetime,
+            'returns_list': training_data.returns_list,
+            'loss_list': training_data.loss_list
         })
 
     return jsonify({"total_count": total_count, "data": result})
@@ -191,7 +184,9 @@ def get_training_data(id):
             'episodes': episodes,
             'config': config,
             'datetime': training_data.training_data_datetime,
-            'last_avg_return': 'string'
+            # 'last_avg_return': 'string',
+            'returns_list': training_data.returns_list,
+            'loss_list': training_data.loss_list
         }
     }
 
@@ -207,7 +202,8 @@ def delete_training_data():
         if training_data is not None:
             db.session.delete(training_data)
             db.session.commit()
-            return 'Training data deleted'
+            cache.clear()
+            return 'Training data deleted',200
         else:
             return 'Training data not found'
     else:
@@ -218,11 +214,13 @@ def delete_training_data():
 def put_trainingdata():
     data = request.get_json()
     # logging.log(data)
-
     training_data = TrainingData(
         # id=data['id'],
-        training_data_datetime=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        training_data_datetime=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        returns_list=data['returns_list'],
+        loss_list=data['loss_list'],
     )
+
 
     config = Config(
         actor_lr=data['config']['actor_lr'],
@@ -318,7 +316,6 @@ def put_trainingdata():
         training_data.episodes.append(episode)
     db.session.add(training_data)
     db.session.commit()
-
     cache.clear()
     return 'success', 200
 
