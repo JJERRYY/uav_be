@@ -82,7 +82,7 @@ def get_training_data_list():
                     'user_rate': step.state.user_rate
                 }
                 action = {
-                    'uav_direction_distance': step.action.uav_direction_distance,
+                    # 'uav_direction_distance': step.action.uav_direction_distance,
                     'uav_power': step.action.uav_power,
                     'uav_association': step.action.uav_association
                 }
@@ -94,7 +94,7 @@ def get_training_data_list():
                 steps.append({
                     'id': step.id,
                     'state': state,
-                    # 'action': action,
+                    'action': action,
                     'reward': step.reward,
                     # 'next_state': next_state,
                     'done': step.done
